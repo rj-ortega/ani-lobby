@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Header, Dropdown, Modal, DropdownItemProps } from 'semantic-ui-react'
+import { Button, Modal, DropdownItemProps } from 'semantic-ui-react'
 
 type User = {
     id: string,
@@ -25,17 +25,11 @@ class ProfileModal extends Component<Props, State> {
         dimmer: true,
         users: []
     }
-
     close = () => {
         this.props.toggleUser()
     }
     componentDidMount() {
-        fetch('https://ani-lobby.herokuapp.com/api/v1/users')
-            .then(res => res.json())
-            .then(res => this.setState({
-                users: res.message
-            }))
-            .catch(error => console.log(error))
+        //    const data = getAnimes()
     }
     render() {
         const { dimmer, users } = this.state
@@ -43,29 +37,16 @@ class ProfileModal extends Component<Props, State> {
         return (
             <div>
                 <Modal dimmer={dimmer} open={this.props.open} onClose={this.close}>
-                    <Modal.Header>Select a User</Modal.Header>
+                    <Modal.Header>Choose a secure option Log In</Modal.Header>
                     <Modal.Content>
                         <Modal.Description>
-                            <Header>Users</Header>
-                            <Dropdown
-                                placeholder='Select User'
-                                fluid
-                                selection
-                                options={userSelection}
-                            />
+                            <div id="firebaseui-auth-container" />
                         </Modal.Description>
                     </Modal.Content>
                     <Modal.Actions>
                         <Button color='black' onClick={this.close}>
                             Nope
                          </Button>
-                        <Button
-                            positive
-                            icon='checkmark'
-                            labelPosition='right'
-                            content="Continue"
-                            onClick={this.close}
-                        />
                     </Modal.Actions>
                 </Modal>
             </div>

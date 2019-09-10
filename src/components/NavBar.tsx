@@ -1,21 +1,27 @@
 import React, { Component, MouseEvent } from 'react'
+import { Menu, MenuItemProps, Input, Button } from 'semantic-ui-react'
+import { withRouter, RouteComponentProps } from 'react-router-dom'
 import ProfileModal from './Modal'
-import { Menu, MenuItemProps, Input, Button, Segment, Modal } from 'semantic-ui-react'
-import { BrowserRouter as Link, Redirect, withRouter, RouteComponentProps } from 'react-router-dom'
+
+import { openFirebaseAuth } from '../modules/firebase'
+import { getUser, logOut } from '../modules/auth'
 
 interface Props extends RouteComponentProps { }
 
 interface State {
-  modal: boolean,
+  modal: boolean
   activeItem: string | undefined
   isUser: boolean
 }
 
 class NavBar extends Component<Props, State> {
-  state = {
-    activeItem: "",
-    modal: false,
-    isUser: false
+  constructor(props: Props) {
+    super(props)
+    this.state = {
+      activeItem: "",
+      modal: false,
+      isUser: false,
+    }
   }
 
   handleItemClick: (event: MouseEvent, data: MenuItemProps) => void = (_, { name }) => {
@@ -29,6 +35,8 @@ class NavBar extends Component<Props, State> {
   toggleModal = () => {
     this.setState({
       modal: !this.state.modal
+    }, () => {
+      openFirebaseAuth()
     })
   }
   toggleUser = () => {
@@ -39,7 +47,34 @@ class NavBar extends Component<Props, State> {
   }
   render() {
     const { activeItem } = this.state
-
+    const loadProfileButtons = () => {
+      if (getUser() === null) {
+        return (
+          <Menu.Menu position="right">
+            <Menu.Item>
+              <Button className="navButton" basic inverted onClick={this.toggleModal}>
+                Sign In
+              </Button>
+            </Menu.Item>
+          </Menu.Menu >
+        )
+      }
+      return (
+        <Menu.Menu position="right">
+          <Menu.Item>
+            <Button className="navButton" basic inverted onClick={logOut}>
+              Sign Out
+              </Button>
+          </Menu.Item>
+          <Menu.Item
+            name='profile'
+            active={activeItem === 'profile'}
+            className='link'
+            onClick={this.handleItemClick}
+          />
+        </Menu.Menu >
+      )
+    }
     return (
       <Menu className="navBar"
         fixed="top"
@@ -72,27 +107,9 @@ class NavBar extends Component<Props, State> {
         <Menu.Item >
           <Input className="searchInput" placeholder='Search for Anime' />
         </Menu.Item>
-        <Menu.Menu position="right">
-          <Menu.Item>
-            <Button className="navButton" basic inverted>
-              Log In
-          </Button>
-          </Menu.Item>
-          <Menu.Item>
-            <Button className="navButton" basic inverted onClick={this.toggleModal}>
-              Log Out
-          </Button>
-          </Menu.Item>
-
-          <Menu.Item
-            position='right'
-            name='profile'
-            active={activeItem === 'profile'}
-            onClick={this.handleItemClick}
-          />
-        </Menu.Menu>
+        {loadProfileButtons()}
         <ProfileModal open={this.state.modal} isUser={this.state.isUser} toggleUser={this.toggleUser} />
-      </Menu>
+      </Menu >
     )
   }
 }
