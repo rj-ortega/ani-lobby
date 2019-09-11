@@ -2,10 +2,10 @@ import React from 'react'
 import { RouteComponentProps } from 'react-router'
 
 interface Props extends RouteComponentProps { }
-const Login: React.SFC<Props> = ({ history }) => {
+const Login: React.FC<Props> = ({ history }) => {
     console.log(history)
     return (
-        <div>Loding...</div>
+        <div>Loading...</div>
     )
 }
 

@@ -1,6 +1,7 @@
 body {
     margin: 0;
-    background: #1e161f;
+    padding: 0;
+    background: white;
 }
 
 .myVideo {
@@ -15,4 +16,36 @@ body {
 .navBar {
     position: absolute;
     z-index: 50;
+    padding: 0 5%;
+}
+
+#search:focus {
+    border-color: black;
+}
+
+#search:hover {
+    background-color: #f4f4f4;
+}
+
+#logoutButton,
+#loginButton {
+    box-shadow: 0 0 0 1px #e2e2e2 !important;
+}
+
+.link.active,
+.link.active:after {
+    background-color: #bbd9f0 !important;
+}
+
+#logoutButton:hover,
+#loginButton:hover {
+    background-color: #f4f4f4 !important;
+}
+
+#not-found {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
 }

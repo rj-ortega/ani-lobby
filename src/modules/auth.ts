@@ -14,9 +14,14 @@ export const logOut = (): void => {
 }
 
 export const getUser = (): SessionUser | null => {
-    const storedUser = localStorage.getItem("user")
+    let storedUser = localStorage.getItem("user")
     if (storedUser) {
-        return JSON.parse(storedUser)
+        try {
+            return JSON.parse(storedUser)
+        } catch (e) {
+            localStorage.clear()
+            return null
+        }
     }
     return null
 }

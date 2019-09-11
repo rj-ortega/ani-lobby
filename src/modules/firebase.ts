@@ -32,7 +32,7 @@ const uiConfig = {
         }
     },
     signInFlow: 'popup',
-    signInSuccessUrl: 'http://localhost:3000/callback/login',
+    signInSuccessUrl: 'http://localhost:3000/profile',
     signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID

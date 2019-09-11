@@ -1,7 +1,7 @@
 import React, { Component, MouseEvent } from 'react'
 import { Menu, MenuItemProps, Input, Button } from 'semantic-ui-react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import ProfileModal from './Modal'
+import LoginModal from './LoginModal'
 
 import { openFirebaseAuth } from '../modules/firebase'
 import { getUser, logOut } from '../modules/auth'
@@ -12,23 +12,26 @@ interface State {
   modal: boolean
   activeItem: string | undefined
   isUser: boolean
+  year: string
 }
+
+const currentYear: string = new Date().getFullYear().toString()
 
 class NavBar extends Component<Props, State> {
   constructor(props: Props) {
     super(props)
     this.state = {
-      activeItem: "",
+      activeItem: this.props.location.pathname,
       modal: false,
       isUser: false,
+      year: currentYear,
     }
   }
 
   handleItemClick: (event: MouseEvent, data: MenuItemProps) => void = (_, { name }) => {
     this.setState({ activeItem: name })
-    this.handleRedirect(`/${name}`)
+    this.handleRedirect(`${name}`)
   }
-
   handleRedirect = (route: string) => {
     this.props.history.push(route)
   }
@@ -39,76 +42,84 @@ class NavBar extends Component<Props, State> {
       openFirebaseAuth()
     })
   }
-  toggleUser = () => {
+  closeModal = () => {
     this.setState({
-      isUser: !this.state.isUser,
       modal: !this.state.modal
     })
   }
+
   render() {
     const { activeItem } = this.state
     const loadProfileButtons = () => {
-      if (getUser() === null) {
+      const user = getUser()
+      if (user === null) {
         return (
           <Menu.Menu position="right">
-            <Menu.Item>
-              <Button className="navButton" basic inverted onClick={this.toggleModal}>
+            <Menu.Item >
+              <Button className="navButton" id="loginButton" basic color="black" onClick={this.toggleModal}>
                 Sign In
               </Button>
+            </Menu.Item>
+            <Menu.Item>
             </Menu.Item>
           </Menu.Menu >
         )
       }
       return (
         <Menu.Menu position="right">
-          <Menu.Item>
-            <Button className="navButton" basic inverted onClick={logOut}>
+          <Menu.Item
+            name='/profile'
+            active={activeItem === '/profile'}
+            className='link'
+            onClick={this.handleItemClick}
+          >
+            {user.name} | Profile
+          </Menu.Item>
+          <Menu.Item >
+            <Button className="navButton" id="logoutButton" basic color="black" onClick={logOut}>
               Sign Out
               </Button>
           </Menu.Item>
-          <Menu.Item
-            name='profile'
-            active={activeItem === 'profile'}
-            className='link'
-            onClick={this.handleItemClick}
-          />
+          <Menu.Item>
+          </Menu.Item>
         </Menu.Menu >
       )
     }
     return (
-      <Menu className="navBar"
+      <Menu pointing className="navBar"
         fixed="top"
-        size="large"
-        inverted
       >
-        <Menu.Item header name="" className='link'
-          onClick={this.handleItemClick}>Ani Lobby</Menu.Item>
+        <Menu.Item header name=""
+          onClick={this.handleItemClick}><img src="/assets/spirited_away.svg" alt="spirited away logo" />&nbsp;Ani Lobby</Menu.Item>
         <Menu.Item
-          name='winter'
-          active={activeItem === 'winter'}
+          name='/winter'
+          active={activeItem === '/winter'}
           className='link'
           onClick={this.handleItemClick}
         />
         <Menu.Item
-          name='spring'
-          active={activeItem === 'spring'}
+          name='/spring'
+          className='link'
+          active={activeItem === '/spring'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
-          name='summer'
-          active={activeItem === 'summer'}
+          name='/summer'
+          className='link'
+          active={activeItem === '/summer'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
-          name='fall'
-          active={activeItem === 'fall'}
+          name='/fall'
+          className='link'
+          active={activeItem === '/fall'}
           onClick={this.handleItemClick}
         />
-        <Menu.Item >
-          <Input className="searchInput" placeholder='Search for Anime' />
+        <Menu.Item className='link'>
+          <Input id="search" className="searchInput" placeholder='Search all Anime' />
         </Menu.Item>
         {loadProfileButtons()}
-        <ProfileModal open={this.state.modal} isUser={this.state.isUser} toggleUser={this.toggleUser} />
+        <LoginModal open={this.state.modal} closeModal={this.closeModal} />
       </Menu >
     )
   }
