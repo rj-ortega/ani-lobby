@@ -64,15 +64,30 @@ body {
 
 .synopsis {
     overflow: auto;
-    height: 164px;
+    height: 128px;
 }
 
-.title {
+.title,
+.genres {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .content {
-    margin-top: 6em;
+    margin: 7em .2em;
+}
+
+.heart {
+    color: red;
+    top: 3px !important;
+    right: 3px !important;
+}
+
+.world {
+    color: #5aa7ff !important;
+}
+
+.icon-container {
+    position: relative;
 }

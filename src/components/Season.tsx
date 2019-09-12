@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AnimeCard } from './AnimeCard'
+import AnimeCard from './AnimeCard'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import { getAnimesBySeason } from '../modules/api'
 import { Anime } from '../types'

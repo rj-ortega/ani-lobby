@@ -2,7 +2,7 @@
 import * as firebase from 'firebase'
 import * as firebaseui from 'firebaseui'
 
-import { logIn } from './auth'
+import { storeUser } from './auth'
 
 import 'firebaseui/dist/firebaseui.css'
 
@@ -25,14 +25,14 @@ export const init = () => {
 
 const uiConfig = {
     callbacks: {
-        signInSuccessWithAuthResult: function (authResult: { user: { uid: number, displayName: string } }) {
+        signInSuccessWithAuthResult: function (authResult: { user: { uid: string, displayName: string } }) {
             const { uid, displayName } = authResult.user
-            logIn(uid, displayName)
+            storeUser({ uid, username: displayName }, "temp-user")
             return true;
         }
     },
     signInFlow: 'popup',
-    signInSuccessUrl: 'http://localhost:3000/profile',
+    signInSuccessUrl: 'http://localhost:3000/callback/login',
     signInOptions: [
         firebase.auth.GoogleAuthProvider.PROVIDER_ID,
         firebase.auth.FacebookAuthProvider.PROVIDER_ID

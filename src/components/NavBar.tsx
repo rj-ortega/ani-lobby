@@ -1,10 +1,10 @@
-import React, { Component, MouseEvent } from 'react'
-import { Menu, MenuItemProps, Input, Button, Icon } from 'semantic-ui-react'
+import React, { Component, MouseEvent, FormEvent } from 'react'
+import { Menu, MenuItemProps, Input, Button, Icon, Form } from 'semantic-ui-react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import LoginModal from './LoginModal'
 
 import { openFirebaseAuth } from '../modules/firebase'
-import { getUser, logOut } from '../modules/auth'
+import { getStoredUser, logOut } from '../modules/auth'
 
 interface Props extends RouteComponentProps { }
 
@@ -13,6 +13,8 @@ interface State {
   activeItem: string | undefined
   isUser: boolean
   year: string
+  query: string
+  toSearch: string
 }
 
 const currentYear: string = new Date().getFullYear().toString()
@@ -25,9 +27,16 @@ class NavBar extends Component<Props, State> {
       modal: false,
       isUser: false,
       year: currentYear,
+      query: "",
+      toSearch: "",
     }
   }
-
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void = (e) => {
+    this.setState({
+      query: e.target.value
+    })
+    console.log(this.state.query)
+  }
   handleItemClick: (event: MouseEvent, data: MenuItemProps) => void = (_, { name }) => {
     this.setState({ activeItem: name })
     if (name != null) this.handleRedirect(name)
@@ -47,11 +56,14 @@ class NavBar extends Component<Props, State> {
       modal: !this.state.modal
     })
   }
+  handleSubmit: (event: any) => void = (event) => {
+    this.props.history.push(`/search?query=${this.state.query}`)
+  }
 
   render() {
     const { activeItem } = this.state
     const loadProfileButtons = () => {
-      const user = getUser()
+      const user = getStoredUser("user")
       if (user === null) {
         return (
           <Menu.Menu position="right">
@@ -73,7 +85,7 @@ class NavBar extends Component<Props, State> {
             className='link'
             onClick={this.handleItemClick}
           >
-            <Icon name="user circle" size="large" /> &nbsp; {user.name || "Profile"}
+            <Icon name="user circle" size="large" /> &nbsp; {user.username || "Profile"}
           </Menu.Item>
           <Menu.Item >
             <Button className="navButton" id="logoutButton" basic color="black" onClick={logOut}>
@@ -96,13 +108,14 @@ class NavBar extends Component<Props, State> {
           className='link'
           active={activeItem === '/winter'}
           onClick={this.handleItemClick}
-        />
+        >Winter</Menu.Item>
         <Menu.Item
           name='/season/spring'
           className='link'
           active={activeItem === '/spring'}
           onClick={this.handleItemClick}
-        />
+        >Spring
+        </Menu.Item>
         <Menu.Item
           name='/season/summer'
           className='link'
@@ -114,9 +127,14 @@ class NavBar extends Component<Props, State> {
           className='link'
           active={activeItem === '/fall'}
           onClick={this.handleItemClick}
-        />
+        >Fall
+        </Menu.Item>
         <Menu.Item className='link'>
-          <Input id="search" className="searchInput" placeholder='Search all Anime' />
+          <Form onSubmit={this.handleSubmit} >
+            <Form.Field>
+              <input type="text" id="search" value={this.state.query} onChange={this.handleChange} className="searchInput" placeholder='Search all Anime' />
+            </Form.Field>
+          </Form>
         </Menu.Item>
         {loadProfileButtons()}
         <LoginModal open={this.state.modal} closeModal={this.closeModal} />

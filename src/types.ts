@@ -23,21 +23,11 @@ export interface Genres {
     url: string
 }
 export interface User {
-    id: string,
-    created_at: string,
-    updated_at: string,
+    id?: string,
+    uid: string,
     username: string
-    animes: null | []
+    animes?: null | []
 }
 export interface SearchResponse {
-    results: SearchResult[]
-}
-export interface SearchResult {
-    mal_id: number
-    title: string
-    url: string
-    image_url: string
-    score: number
-    episodes: number
-    synopsis: string
+    results: Anime[]
 }

@@ -7,6 +7,7 @@ import Home from './components/Home'
 import Season from './components/Season'
 import Search from './components/Search'
 import Profile from './components/Profile'
+import Login from './components/Login'
 
 class App extends React.Component {
   render() {
@@ -17,8 +18,9 @@ class App extends React.Component {
           <Switch>
             <Route path='/' exact component={Home} />
             <Route path='/season/:season' exact component={Season} />
-            <Route path='/search' exact component={Search} />
+            <Route path='/search' component={Search} />
             <Route path='/profile' exact component={Profile} />
+            <Route path='/callback/login' exact component={Login} />
             <Route component={NotFound} />
           </Switch>
         </div>
