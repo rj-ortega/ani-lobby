@@ -1,5 +1,5 @@
 import React, { Component, MouseEvent } from 'react'
-import { Menu, MenuItemProps, Input, Button } from 'semantic-ui-react'
+import { Menu, MenuItemProps, Input, Button, Icon } from 'semantic-ui-react'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 import LoginModal from './LoginModal'
 
@@ -30,7 +30,7 @@ class NavBar extends Component<Props, State> {
 
   handleItemClick: (event: MouseEvent, data: MenuItemProps) => void = (_, { name }) => {
     this.setState({ activeItem: name })
-    this.handleRedirect(`${name}`)
+    if (name != null) this.handleRedirect(name)
   }
   handleRedirect = (route: string) => {
     this.props.history.push(route)
@@ -73,7 +73,7 @@ class NavBar extends Component<Props, State> {
             className='link'
             onClick={this.handleItemClick}
           >
-            {user.name} | Profile
+            <Icon name="user circle" size="large" /> &nbsp; {user.name || "Profile"}
           </Menu.Item>
           <Menu.Item >
             <Button className="navButton" id="logoutButton" basic color="black" onClick={logOut}>
@@ -92,25 +92,25 @@ class NavBar extends Component<Props, State> {
         <Menu.Item header name=""
           onClick={this.handleItemClick}><img src="/assets/spirited_away.svg" alt="spirited away logo" />&nbsp;Ani Lobby</Menu.Item>
         <Menu.Item
-          name='/winter'
-          active={activeItem === '/winter'}
+          name='/season/winter'
           className='link'
+          active={activeItem === '/winter'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
-          name='/spring'
+          name='/season/spring'
           className='link'
           active={activeItem === '/spring'}
           onClick={this.handleItemClick}
         />
         <Menu.Item
-          name='/summer'
+          name='/season/summer'
           className='link'
           active={activeItem === '/summer'}
           onClick={this.handleItemClick}
-        />
+        >Summer</Menu.Item>
         <Menu.Item
-          name='/fall'
+          name='/season/fall'
           className='link'
           active={activeItem === '/fall'}
           onClick={this.handleItemClick}

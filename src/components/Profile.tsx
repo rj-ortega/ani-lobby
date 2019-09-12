@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import AnimeCard from './AnimeCard'
+import { AnimeCard } from './AnimeCard'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
 
 type User = {
@@ -9,6 +9,7 @@ type User = {
     username: string
     animes: null | []
 }
+
 interface Anime {
     string: string
 }

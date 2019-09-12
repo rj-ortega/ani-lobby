@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import AnimeCard from './AnimeCard'
+import { AnimeCard } from './AnimeCard'
 import { withRouter, RouteComponentProps } from 'react-router-dom'
-import { tsPropertySignature } from '@babel/types'
 
 interface Props extends RouteComponentProps { }
 interface Anime {
