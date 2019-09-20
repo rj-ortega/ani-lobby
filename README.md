@@ -8,6 +8,6 @@ Capstone project built in 3 weeks using [React](https://reactjs.org/) but includ
 
 [Link to the back end Golang repository](https://github.com/rj-ortega/ani-lobby-api)
 
-Currently working on deployment on firebase
+Currently deployed at https://ani-lobby.firebaseapp.com/
 
-### Flow of the App
+MIT License
