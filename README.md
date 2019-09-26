@@ -1,6 +1,6 @@
 # Ani Lobby
 
-Capstone project built in 3 weeks using [React](https://reactjs.org/) but including technologies I had never worked with: 
+Capstone project built in 3 weeks using [React](https://reactjs.org/) and the following technologies which I hadn't worked with: 
 * [Typescript](https://www.typescriptlang.org/)
 * [Semantic React UI](https://react.semantic-ui.com/)
 * [Firebase O-Auth](https://firebase.google.com/docs/auth)
