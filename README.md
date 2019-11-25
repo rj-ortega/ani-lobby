@@ -8,7 +8,7 @@ Currently deployed at https://ani-lobby.firebaseapp.com/
 
 ## Demo
 
-<img src="/assets/ani-lobby.gif" width="600">
+<img src="src/assets/ani-lobby.gif" width="600">
 
 ## Technologies
 
